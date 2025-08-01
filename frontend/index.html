@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InstaSpark</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="root" class="min-h-screen bg-gray-100 flex items-center justify-center"></div>
+    <script type="text/babel">
+        function App() {
+            const [description, setDescription] = React.useState("");
+            const [caption, setCaption] = React.useState("");
+
+            const handleGenerate = async () => {
+                const response = await fetch("http://localhost:8000/generate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ description }),
+                });
+                const data = await response.json();
+                setCaption(data.caption);
+            };
+
+            return (
+                <div class="p-6 bg-white rounded-lg shadow-lg max-w-md w-full">
+                    <h1 class="text-2xl font-bold mb-4 text-center">InstaSpark</h1>
+                    <input
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Describe your post"
+                        class="w-full p-2 mb-4 border rounded"
+                    />
+                    <button
+                        onClick={handleGenerate}
+                        class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    >
+                        Generate Caption
+                    </button>
+                    {caption && (
+                        <div class="mt-4">
+                            <p class="font-bold">Generated Caption:</p>
+                            <p>{caption}</p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+</html>
