@@ -26,15 +26,14 @@ data_collator = DataCollatorForLanguageModeling(
     tokenizer=tokenizer, mlm=False,
 )
 
-# Training arguments (disable WandB)
+# Training arguments
 training_args = TrainingArguments(
     output_dir="../models/results",
     overwrite_output_dir=True,
-    num_train_epochs=5,  # Increased for better convergence
+    num_train_epochs=3,
     per_device_train_batch_size=4,
     save_steps=10_000,
     save_total_limit=2,
-    report_to="none",  # Disable WandB logging
 )
 
 # Trainer
