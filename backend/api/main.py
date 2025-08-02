@@ -4,7 +4,7 @@ from transformers import pipeline
 app = FastAPI()
 
 # Load the fine-tuned model (after training)
-generator = pipeline("text-generation", model="../models/finetuned_model")
+generator = pipeline("text-generation", model="/workspaces/InstaSpark/backend/models/finetuned_model")
 
 @app.get("/")
 def read_root():
